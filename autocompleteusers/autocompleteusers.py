@@ -44,6 +44,11 @@ class AutocompleteUsers(Component):
                                       user[NAME])
                         for value, user in users] # value unused (placeholder needed for sorting)
 
+        if req.args.get('summaries'):
+            summaries = self._get_summaries(req)
+            if summaries:
+                req.send(json.dumps(summaries), 'text/plain')
+
         if req.args.get('groups'):
             groups = self._get_groups(req)
             if groups:
@@ -167,6 +172,16 @@ class AutocompleteUsers(Component):
                         break
 
         return sorted(users)
+
+    def _get_summaries(self, req):
+        # Returns a list of activities .
+        query = req.args.get('term', '').lower()
+        db = self.env.get_db_cnx()
+        cursor = db.cursor()
+        cursor.execute("SELECT summary FROM ticket where reporter=%s and lower(summary) like %s",
+                       (req.authname, '%' + query + '%'))
+        #activities = [user[0] for user in self.env.get_known_users()]
+        return sorted([row[0] for row in cursor])
 
     def _get_customers(self, req):
         # Returns a list of activities .
