@@ -23,27 +23,27 @@ function refreshActivity_group(){
 
 jQuery(document).ready(function ($) {
 
-  $("#field-cc").old_autocomplete("../subjects", {
-    multiple: true,
-    formatItem: formatItem
-  });
-  $("input:text#field-reporter").old_autocomplete("../subjects", {
-    formatItem: formatItem
-  });
-   $("select#field-activity_group").css('max-width','499px');
+    $("#field-cc").old_autocomplete("../subjects", {
+        multiple: true,
+        formatItem: formatItem
+    });
+    $("input:text#field-reporter").old_autocomplete("../subjects", {
+        formatItem: formatItem
+    });
+    $("select#field-activity_group").css('max-width','499px');
 
-  $.ajax({
-    url: "../subjects?activity=1",
-    dataType : "text",
-    success: function (data, textStatus) {
-         $("#field-activity").html(formatSelectOptions(data,$("#field-activity").val()));
-     }
-  });
+    $.ajax({
+        url: "../subjects?activity=1",
+        dataType : "text",
+        success: function (data, textStatus) {
+            $("#field-activity").html(formatSelectOptions(data,$("#field-activity").val()));
+        }
+    });
 
 
-  $("select#field-activity").change(function(){
+    $("select#field-activity").change(function(){
         refreshActivity_group();
-  });
+    });
     refreshActivity_group();
 
 
@@ -71,5 +71,4 @@ jQuery(document).ready(function ($) {
         $(this).autocomplete("search");
     });
 
- });
-
+});
