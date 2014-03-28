@@ -12,38 +12,38 @@ $.extend( $.ui.autocomplete.prototype, {
 
 jQuery(document).ready(function ($) {
 
-  $("select#field-activity_group").css('max-width','499px');
-  $("#field-activity_group").html('<option value=""></option>');
+    $("select#field-activity_group").css('max-width','499px');
+    $("#field-activity_group").html('<option value=""></option>');
 
-  $.ajax({
-    url: "subjects?activity=1",
-    dataType : "text",
-    success: function (data, textStatus) {
-     $("#field-activity").html(formatSelectOptions(data,''));
-     $("#field-activity").change(function(){
-        $.ajax({
-            url: "subjects?activity_group=1&activity="+ encodeURI($("#field-activity").val()),
-            dataType : "text",
-            success: function (data, textStatus) {
-              var selectActivity_group = $("#field-activity_group").val()
-              $("#field-activity_group").html(formatSelectOptions(data,selectActivity_group));
-            }
-        });
-        });
-     }
-  });
+    $.ajax({
+        url: "subjects?activity=1",
+        dataType : "text",
+        success: function (data, textStatus) {
+            $("#field-activity").html(formatSelectOptions(data,''));
+            $("#field-activity").change(function(){
+                $.ajax({
+                    url: "subjects?activity_group=1&activity="+ encodeURI($("#field-activity").val()),
+                    dataType : "text",
+                    success: function (data, textStatus) {
+                        var selectActivity_group = $("#field-activity_group").val()
+                        $("#field-activity_group").html(formatSelectOptions(data,selectActivity_group));
+                    }
+                });
+            });
+        }
+    });
 
 
 
-  $("#field-cc").old_autocomplete("subjects", {
-    multiple: true,
-    formatItem: formatItem,
-    delay: 100
-  });
+    $("#field-cc").old_autocomplete("subjects", {
+        multiple: true,
+        formatItem: formatItem,
+        delay: 100
+    });
 
-  $("input:text#field-reporter").old_autocomplete("subjects", {
-    formatItem: formatItem
-  });
+    $("input:text#field-reporter").old_autocomplete("subjects", {
+        formatItem: formatItem
+    });
 
     $("input:text#field-customer").autocomplete({
         source: "subjects?customers=1",
@@ -66,6 +66,13 @@ jQuery(document).ready(function ($) {
 
 
     $("input:text#field-customer_order").click(function(){
+        $(this).autocomplete("search");
+    });
+
+    $("input:text#field-summary").autocomplete({
+        source: "subjects?summaries=1",
+        minLength: 0
+    }).click(function(){
         $(this).autocomplete("search");
     });
 
